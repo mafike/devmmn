@@ -20,7 +20,7 @@ environment {
               archive 'target/*.jar' //so tfhat they can be downloaded later
             }
         }   
-   /*   stage('Unit Tests - JUnit and Jacoco') {
+      stage('Unit Tests - JUnit and Jacoco') {
        steps {
         sh "mvn test"
         
@@ -45,8 +45,7 @@ environment {
           }
         }
       }   
-     }  
-
+     }  */
      stage('Vulnerability Scan - Docker ') {
       steps {
         parallel(
@@ -195,11 +194,11 @@ environment {
 }
     post {
      always {
-     // junit 'target/surefire-reports/*.xml'
+      junit 'target/surefire-reports/*.xml'
      // jacoco execPattern: 'target/jacoco.exec'
      // pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-     // dependencyCheckPublisher pattern: 'target/dependency-check-report.xml',
-     // publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML Report', reportTitles: 'OWASP ZAP HTML Report'])
+      dependencyCheckPublisher pattern: 'target/dependency-check-report.xml',
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML Report', reportTitles: 'OWASP ZAP HTML Report'])
       publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '.', reportFiles: 'combined-kube-bench-report.html', reportName: 'Kube-Bench HTML Report', reportTitles: 'Kube-Bench HTML Report'])
       sendNotification currentBuild.result
     }
